@@ -6,9 +6,18 @@ output:
     toc_float: true
 ---
 
-# This is My website
-
-Still working!!!
-
-[About me](about.html)
+# Hello!!!
+ Say hello to the world from Here!  
  
+ <img src="images/here.png" style="width:65%">  
+ 
+ Beijing, China
+ 
+# Introduction of myself
+
+If you want know more about me, click here: [about me](about.html)
+
+
+# NYC Restaurant Inspection Results
+The New York City Department of Health and Mental Hygiene (DOHMH) conducts unannounced restaurant inspections on an annual basis in order to check for compliance with policies on food handling, food temperature, personal hygiene of restaurant workers, and vermin control. Regulation violations are each worth a pre-specified number of points, which are totaled at the end of the inspection. Scores are converted into grades, where a lower score earns a higher grade.
+[Here are some plots of the result.](dashboard.html)
