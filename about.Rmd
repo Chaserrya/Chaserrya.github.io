@@ -8,3 +8,28 @@ output:
 
 # About me
 
+## Educational Backgroug
+* Undergraduate:
+Sun Yat-sen University 
+Bachelor of Science in Biotechnology
+
+* Graduate:
+Columbia University
+Master of Science in Biostatistic
+
+## Research Experiences
+
+* Project with Proteomics Topics and Operations  
+07/2019-08/2019
+* Effect of Uterine Fluid Micro-environment on Embryo Implantation  
+04/2019-07/2019
+* Analysis of National Land-Use Type in China  
+07/2018-08/2018
+
+## Graduate Thesis
+
+* Effect of High Concentration Potassium in Uterine Fluid on Embryo Development & Underlying Mechanism  
+04/2019-05/2020
+
+
+
