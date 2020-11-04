@@ -1,0 +1,96 @@
+---
+title: "Chufeng Yang's personal website"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(p8105.datasets)
+library(plotly)
+library(lubridate)
+```
+
+
+# NYC Restaurant Inspection Results
+
+Here, I want to make some plot to show the result!
+
+```{r}
+data("rest_inspec")
+rest_inspec = 
+  rest_inspec %>% 
+  select(boro, cuisine_description, inspection_date, grade, score, dba, phone, street, critical_flag) %>%  
+  filter(grade == "C") %>% 
+  mutate(inspection_date = as_date(inspection_date))%>%
+  mutate(cuisine_description = as_factor(cuisine_description))
+rest_inspec
+```
+Since Coulumbia University is located in Manhattan, I decided to focus in the result in Manhattan.
+
+## scatterplot
+First, we want to know how does the grade changes during these years.
+```{r}
+rest_inspec %>%
+  mutate(text_label = str_c(dba,"\nGrade: ", grade, "\nPhone number: ", phone)) %>% 
+  plot_ly(
+    x = ~inspection_date, y = ~score, type = "scatter", mode = "markers",
+    color = ~boro, text = ~text_label, alpha = 0.5, colors = "viridis")%>% 
+layout(
+    xaxis = list(title = "Date"),
+    yaxis = list(title = "Score"),
+    title = "C grade Restaurant in NYC"
+  )
+```
+
+
+
+
+## boxplot
+```{r}
+rest_inspec %>% 
+  mutate(boro = fct_reorder(boro, score)) %>% 
+  plot_ly(y = ~score, color = ~boro, type = "box", colors = "viridis")%>% 
+layout(
+    xaxis = list(title = "Location"),
+    yaxis = list(title = "Score"),
+    title = "C Grade Restaurant in NYC"
+  )
+```
+
+
+
+
+
+## bar plot
+We want to know the distribution in different cuisine
+
+```{r}
+rest_inspec %>% 
+  distinct(dba,cuisine_description)%>% 
+  count(cuisine_description)%>% 
+  arrange(desc(n))%>% 
+  filter(n>10)%>% 
+  mutate(cuisine_description = fct_reorder(cuisine_description, n)) %>% 
+  plot_ly(x = ~cuisine_description, y = ~n, color = ~cuisine_description, type = "bar", colors = "viridis")%>% 
+layout(
+    xaxis = list(title = "Cuisine"),
+    yaxis = list(title = "Count"),
+    title = "C Grade Restaurant in Different cuisine",
+    showlegend = FALSE
+  )
+```
+
+
+
+
+
+
+
+
+
+
+

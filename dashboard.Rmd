@@ -1,0 +1,80 @@
+---
+title: "Untitled"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+    source: embed
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(tidyverse)
+library(p8105.datasets)
+library(plotly)
+library(lubridate)
+```
+
+```{r}
+data("rest_inspec")
+rest_inspec = 
+  rest_inspec %>% 
+  select(boro, cuisine_description, inspection_date, grade, score, dba, phone, street, critical_flag) %>%  
+  filter(grade == "C") %>% 
+  mutate(inspection_date = as_date(inspection_date))%>%
+  mutate(cuisine_description = as_factor(cuisine_description))
+```
+
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Chart A
+
+```{r}
+rest_inspec %>%
+  mutate(text_label = str_c(dba,"\nGrade: ", grade, "\nPhone number: ", phone)) %>% 
+  plot_ly(
+    x = ~inspection_date, y = ~score, type = "scatter", mode = "markers",
+    color = ~boro, text = ~text_label, alpha = 0.5, colors = "viridis")%>% 
+layout(
+    xaxis = list(title = "Date"),
+    yaxis = list(title = "Score"),
+    title = "C grade Restaurant in NYC"
+  )
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Chart B
+
+```{r}
+rest_inspec %>% 
+  mutate(boro = fct_reorder(boro, score)) %>% 
+  plot_ly(y = ~score, color = ~boro, type = "box", colors = "viridis")%>% 
+layout(
+    xaxis = list(title = "Location"),
+    yaxis = list(title = "Score"),
+    title = "C Grade Restaurant in NYC"
+  )
+```
+
+### Chart C
+
+```{r}
+rest_inspec %>% 
+  distinct(dba,cuisine_description)%>% 
+  count(cuisine_description)%>% 
+  arrange(desc(n))%>% 
+  filter(n>10)%>% 
+  mutate(cuisine_description = fct_reorder(cuisine_description, n)) %>% 
+  plot_ly(x = ~cuisine_description, y = ~n, color = ~cuisine_description, type = "bar", colors = "viridis")%>% 
+layout(
+    xaxis = list(title = "Cuisine"),
+    yaxis = list(title = "Count"),
+    title = "C Grade Restaurant in Different cuisine",
+    showlegend = FALSE
+  )
+```
+
